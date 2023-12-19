@@ -1,0 +1,51 @@
+package com.example.training.Serivce;
+
+import com.example.training.ResourceNotFoundException;
+import com.example.training.Serivce.DTO.DepartmentDto;
+import com.example.training.Serivce.DTO.DepartmentMapper;
+import com.example.training.Repository.DepartmentRepository;
+import com.example.training.Entity.Department;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@NoArgsConstructor
+public class DepartmentServiceImplementation implements DepartmentService {
+
+    @Autowired
+    private DepartmentRepository departmentRepository;
+    @Override
+    public DepartmentDto getDepartmentById(Long id) {
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found"+ id));
+        return DepartmentMapper.toDepartmentDto(department);
+    }
+    @Override
+    public DepartmentDto createDepartment(DepartmentDto departmentDto) {
+        Department department = DepartmentMapper.toDepartment(departmentDto);
+        department = departmentRepository.save(department);
+        return DepartmentMapper.toDepartmentDto(department);
+    }
+    @Override
+    public DepartmentDto updateDepartment(Long deptId, DepartmentDto departmentDto) {
+        Department department = departmentRepository.findById(deptId).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found" + deptId));
+        department.setDepartmentCode(departmentDto.getDepartmentCode());
+        department.setDepartmentName(departmentDto.getDepartmentName());
+        department.setDepartmentDescription(departmentDto.getDepartmentDescription());
+        department = departmentRepository.save(department);
+        return DepartmentMapper.toDepartmentDto(department);
+    }
+    @Override
+    public void deleteDepartment(Long id) {
+        departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found"+ id));
+        departmentRepository.deleteById(id);
+    }
+    @Override
+    public List<DepartmentDto> getAllDepartments() {
+        List<Department> departments = departmentRepository.findAll();
+        return departments.stream().map((department) -> DepartmentMapper.toDepartmentDto(department))
+                .collect(java.util.stream.Collectors.toList());
+    }
+}
