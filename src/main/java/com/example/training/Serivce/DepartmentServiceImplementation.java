@@ -18,8 +18,8 @@ public class DepartmentServiceImplementation implements DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
     @Override
-    public DepartmentDto getDepartmentById(Long id) {
-        Department department = departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found"+ id));
+    public DepartmentDto getDepartmentById(Long id) throws ResourceNotFoundException{
+        Department department = departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {"+id+"} not found"));
         return DepartmentMapper.toDepartmentDto(department);
     }
     @Override
@@ -29,8 +29,8 @@ public class DepartmentServiceImplementation implements DepartmentService {
         return DepartmentMapper.toDepartmentDto(department);
     }
     @Override
-    public DepartmentDto updateDepartment(Long deptId, DepartmentDto departmentDto) {
-        Department department = departmentRepository.findById(deptId).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found" + deptId));
+    public DepartmentDto updateDepartment(Long deptId, DepartmentDto departmentDto) throws ResourceNotFoundException{
+        Department department = departmentRepository.findById(deptId).orElseThrow(() -> new ResourceNotFoundException("Department with {"+deptId+"} not found"));
         department.setDepartmentCode(departmentDto.getDepartmentCode());
         department.setDepartmentName(departmentDto.getDepartmentName());
         department.setDepartmentDescription(departmentDto.getDepartmentDescription());
@@ -38,8 +38,8 @@ public class DepartmentServiceImplementation implements DepartmentService {
         return DepartmentMapper.toDepartmentDto(department);
     }
     @Override
-    public void deleteDepartment(Long id) {
-        departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found"+ id));
+    public void deleteDepartment(Long id) throws ResourceNotFoundException{
+        departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {"+id+"+} not found"));
         departmentRepository.deleteById(id);
     }
     @Override

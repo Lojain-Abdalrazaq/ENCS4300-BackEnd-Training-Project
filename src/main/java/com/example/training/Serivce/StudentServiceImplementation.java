@@ -29,13 +29,13 @@ public class StudentServiceImplementation implements StudentService {
         return StudentMapper.toStudentDto(student);
     }
     @Override
-    public StudentDto getStudentById(long id) {
-        Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student with {id} not found"+ id));
+    public StudentDto getStudentById(long id) throws ResourceNotFoundException{
+        Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student with {"+id+"} not found."));
         return StudentMapper.toStudentDto(student);
     }
     @Override
-    public StudentDto updateStudent(long studentId, StudentDto updatedStudent) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {id} not found"+ studentId));
+    public StudentDto updateStudent(long studentId, StudentDto updatedStudent) throws ResourceNotFoundException{
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {"+studentId+"}not found to update."));
         student.setStudentName(updatedStudent.getStudentName());
         student.setStudentBD(updatedStudent.getStudentBD());
         student.setStudentGPA(updatedStudent.getStudentGPA());
@@ -46,8 +46,8 @@ public class StudentServiceImplementation implements StudentService {
         return StudentMapper.toStudentDto(student);
     }
     @Override
-    public void deleteStudent(long studentId) {
-        studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {id} not found"+ studentId));
+    public void deleteStudent(long studentId) throws ResourceNotFoundException{
+        studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {"+studentId+"} not found!, We cant find the student to delete."));
         studentRepository.deleteById(studentId);
     }
     @Override
@@ -57,15 +57,15 @@ public class StudentServiceImplementation implements StudentService {
                 .collect(java.util.stream.Collectors.toList());
     }
     @Override
-    public void enrollStudentInCourse(Long studentId, Long courseId) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course not found"));
+    public void enrollStudentInCourse(Long studentId, Long courseId) throws ResourceNotFoundException{
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {"+studentId+"}not found."));
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with {"+courseId+"}not found."));
         student.getEnrolledCourses().add(course);
         studentRepository.save(student);
     }
     @Override
-    public List<CourseDto> getCoursesForStudent(Long studentId) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student not found"));
+    public List<CourseDto> getCoursesForStudent(Long studentId) throws ResourceNotFoundException{
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {"+studentId+"}not found."));
         return student.getEnrolledCourses().stream().map(CourseMapper::toCourseDto).collect(Collectors.toList());
     }
 }

@@ -25,21 +25,21 @@ public class CourseServiceImplementation implements CourseService {
     @Autowired
     private DepartmentRepository departmentRepository;
     @Override
-    public CourseDto createCourse(CourseDto courseDto) {
-        Department department = departmentRepository.findById(courseDto.getDepartmentId()).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found"+ courseDto.getDepartmentId()));
-        Teacher teacher = teacherRepository.findById(courseDto.getTeacherId()).orElseThrow(() -> new ResourceNotFoundException("Teacher with {id} not found"+ courseDto.getTeacherId()));
+    public CourseDto createCourse(CourseDto courseDto) throws ResourceNotFoundException{
+        Department department = departmentRepository.findById(courseDto.getDepartmentId()).orElseThrow(() -> new ResourceNotFoundException("Department with {"+courseDto.getDepartmentId()+"} not found"));
+        Teacher teacher = teacherRepository.findById(courseDto.getTeacherId()).orElseThrow(() -> new ResourceNotFoundException("Teacher with {"+courseDto.getTeacherId()+"} not found"));
         Course course = CourseMapper.toCourse(courseDto, department, teacher);
         course = courseRepository.save(course);
         return CourseMapper.toCourseDto(course);
     }
     @Override
-    public CourseDto getCourseById(long id) {
-        Course course = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course with {id} not found"+ id));
+    public CourseDto getCourseById(long id) throws ResourceNotFoundException{
+        Course course = courseRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Course with {"+id+"} not found"));
         return CourseMapper.toCourseDto(course);
     }
     @Override
-    public CourseDto updateCourse(long courseId, CourseDto updatedCourse) {
-        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with {id} not found"+ courseId));
+    public CourseDto updateCourse(long courseId, CourseDto updatedCourse) throws ResourceNotFoundException{
+        Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with {"+courseId+"} not found"));
         course.setCourseCode(updatedCourse.getCourseCode());
         course.setCourseName(updatedCourse.getCourseName());
         course.setCourseDescription(updatedCourse.getCourseDescription());
@@ -48,8 +48,8 @@ public class CourseServiceImplementation implements CourseService {
         return CourseMapper.toCourseDto(course);
     }
     @Override
-    public void deleteCourse(long courseId) {
-        courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with {id} not found"+ courseId));
+    public void deleteCourse(long courseId) throws ResourceNotFoundException{
+        courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with {"+courseId+" not found"));
         courseRepository.deleteById(courseId);
     }
     @Override

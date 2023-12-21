@@ -9,11 +9,9 @@ import com.example.training.Serivce.DTO.TeacherDto;
 import com.example.training.Serivce.DTO.TeacherMapper;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @NoArgsConstructor
 @Service
@@ -23,20 +21,20 @@ public class TeacherServiceImplementation implements TeacherService {
     @Autowired
     private DepartmentRepository departmentRepository;
     @Override
-    public TeacherDto createTeacher(TeacherDto teacherDto) {
-        Department department = departmentRepository.findById(teacherDto.getDepartmentId()).orElseThrow(() -> new ResourceNotFoundException("Department with {id} not found"+ teacherDto.getDepartmentId()));
+    public TeacherDto createTeacher(TeacherDto teacherDto) throws ResourceNotFoundException{
+        Department department = departmentRepository.findById(teacherDto.getDepartmentId()).orElseThrow(() -> new ResourceNotFoundException("Department with {"+teacherDto.getDepartmentId()+"}not found"));
         Teacher teacher = TeacherMapper.toTeacher(teacherDto, department);
         teacher = teacherRepository.save(teacher);
         return TeacherMapper.toTeacherDto(teacher);
     }
     @Override
-    public TeacherDto getTeacherById(long id) {
-        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Teacher with {id} not found"+ id));
+    public TeacherDto getTeacherById(long id) throws ResourceNotFoundException{
+        Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Teacher with {"+id+"} not found"));
         return TeacherMapper.toTeacherDto(teacher);
     }
     @Override
-    public TeacherDto updateTeacher(long teacherId, TeacherDto updatedTeacher) {
-        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFoundException("Teacher with {id} not found"+ teacherId));
+    public TeacherDto updateTeacher(long teacherId, TeacherDto updatedTeacher) throws ResourceNotFoundException{
+        Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFoundException("Teacher with {"+teacherId+"} not found"));
         teacher.setTeacherName(updatedTeacher.getTeacherName());
         teacher.setTeacherGender(updatedTeacher.getTeacherGender());
         teacher.setTeacherBD(updatedTeacher.getTeacherBD());
@@ -50,7 +48,7 @@ public class TeacherServiceImplementation implements TeacherService {
     }
     @Override
     public void deleteTeacher(long teacherId) {
-        teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFoundException("Teacher with {id} not found"+ teacherId));
+        teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFoundException("Teacher with {"+teacherId+"} not found"));
         teacherRepository.deleteById(teacherId);
     }
     @Override
