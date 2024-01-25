@@ -1,10 +1,8 @@
 package com.example.training.Controller;
 
-import com.example.training.ResourceNotFoundException;
 import com.example.training.Serivce.DTO.CourseDto;
 import com.example.training.Serivce.DTO.StudentDto;
-import com.example.training.Serivce.StudentService;
-import jakarta.validation.Valid;
+import com.example.training.Serivce.Interface.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,8 +29,8 @@ public class StudentController {
     }
     @GetMapping("/read/{id}")
     public ResponseEntity<StudentDto> getStudentById(@PathVariable(name = "id") Long studentId){
-            StudentDto student = studentService.getStudentById(studentId);
-            return ResponseEntity.ok(student);
+        StudentDto student = studentService.getStudentById(studentId);
+        return ResponseEntity.ok(student);
     }
     @GetMapping("/all")
     public ResponseEntity<List<StudentDto>> getAllStudents(){

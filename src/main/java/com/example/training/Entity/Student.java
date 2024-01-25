@@ -1,6 +1,5 @@
 package com.example.training.Entity;
 
-import com.example.training.Entity.Course;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;

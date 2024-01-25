@@ -1,8 +1,7 @@
 package com.example.training.Controller;
 
 import com.example.training.Serivce.DTO.CourseDto;
-import com.example.training.Serivce.CourseService;
-import com.example.training.Serivce.DTO.StudentDto;
+import com.example.training.Serivce.Interface.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

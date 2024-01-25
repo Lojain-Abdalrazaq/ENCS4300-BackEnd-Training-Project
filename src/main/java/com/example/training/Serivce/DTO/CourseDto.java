@@ -20,5 +20,4 @@ public class CourseDto {
         private Long departmentId;  // foreign key for department table
         private Long teacherId;     // foreign key for teacher table
 
-
 }

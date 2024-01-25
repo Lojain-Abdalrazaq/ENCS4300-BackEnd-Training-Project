@@ -1,4 +1,4 @@
-package com.example.training.Serivce;
+package com.example.training.Serivce.Interface;
 
 import com.example.training.Serivce.DTO.CourseDto;
 import com.example.training.Serivce.DTO.StudentDto;

@@ -1,12 +1,13 @@
-package com.example.training.Serivce;
+package com.example.training.Serivce.Class;
 
 import com.example.training.Entity.Department;
-import com.example.training.ResourceNotFoundException;
+import com.example.training.Handler.ResourceNotFoundException;
 import com.example.training.Entity.Teacher;
 import com.example.training.Repository.TeacherRepository;
 import com.example.training.Repository.DepartmentRepository;
 import com.example.training.Serivce.DTO.TeacherDto;
-import com.example.training.Serivce.DTO.TeacherMapper;
+import com.example.training.Serivce.Mapper.TeacherMapper;
+import com.example.training.Serivce.Interface.TeacherService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

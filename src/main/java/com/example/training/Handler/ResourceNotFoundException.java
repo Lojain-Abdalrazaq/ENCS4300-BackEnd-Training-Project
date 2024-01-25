@@ -1,4 +1,4 @@
-package com.example.training;
+package com.example.training.Handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

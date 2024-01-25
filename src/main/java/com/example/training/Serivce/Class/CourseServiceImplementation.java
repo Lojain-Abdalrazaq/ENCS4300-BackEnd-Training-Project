@@ -1,12 +1,13 @@
-package com.example.training.Serivce;
+package com.example.training.Serivce.Class;
 
 import com.example.training.Entity.Department;
 import com.example.training.Entity.Teacher;
 import com.example.training.Repository.DepartmentRepository;
 import com.example.training.Repository.TeacherRepository;
-import com.example.training.ResourceNotFoundException;
+import com.example.training.Handler.ResourceNotFoundException;
+import com.example.training.Serivce.Interface.CourseService;
 import com.example.training.Serivce.DTO.CourseDto;
-import com.example.training.Serivce.DTO.CourseMapper;
+import com.example.training.Serivce.Mapper.CourseMapper;
 import com.example.training.Entity.Course;
 import com.example.training.Repository.CourseRepository;
 import lombok.NoArgsConstructor;

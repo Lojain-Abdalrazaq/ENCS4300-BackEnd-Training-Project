@@ -35,7 +35,6 @@ public class Course {
     @Column(name = "course_description")
     private String courseDescription;
 
-    @NotBlank(message = "Course Prerequisite is mandatory")
     @Column(name = "course_prerequisite")
     private String coursePrerequisite;
 

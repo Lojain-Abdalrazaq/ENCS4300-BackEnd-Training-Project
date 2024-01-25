@@ -1,4 +1,4 @@
-package com.example.training;
+package com.example.training.Handler;
 
 
 import lombok.Getter;

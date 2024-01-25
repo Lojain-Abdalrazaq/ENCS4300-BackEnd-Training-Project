@@ -1,4 +1,4 @@
-package com.example.training.Serivce.DTO;
+package com.example.training.Serivce.Mapper;
 
 import com.example.training.Entity.Student;
 import com.example.training.Serivce.DTO.StudentDto;
