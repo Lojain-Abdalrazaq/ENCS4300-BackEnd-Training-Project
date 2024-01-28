@@ -1,5 +1,6 @@
 package com.example.training.Serivce.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +22,7 @@ public class StudentDto {
 
     private Long studentId;
     private String studentName;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date studentBD;
     private Double studentGPA;
     private String studentEmail;
