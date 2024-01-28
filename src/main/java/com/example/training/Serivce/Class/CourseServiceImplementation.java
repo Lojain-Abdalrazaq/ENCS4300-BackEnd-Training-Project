@@ -41,11 +41,22 @@ public class CourseServiceImplementation implements CourseService {
     @Override
     public CourseDto updateCourse(long courseId, CourseDto updatedCourse) throws ResourceNotFoundException{
         Course course = courseRepository.findById(courseId).orElseThrow(() -> new ResourceNotFoundException("Course with {"+courseId+"} not found"));
-        course.setCourseCode(updatedCourse.getCourseCode());
-        course.setCourseName(updatedCourse.getCourseName());
-        course.setCourseDescription(updatedCourse.getCourseDescription());
-        course.setCoursePrerequisite(updatedCourse.getCoursePrerequisite());
-        course.setCourseCredit(updatedCourse.getCourseCredit());
+        if(updatedCourse.getCourseCode() != null){
+            course.setCourseCode(updatedCourse.getCourseCode());
+        }
+        if(updatedCourse.getCourseName() != null){
+            course.setCourseName(updatedCourse.getCourseName());
+        }
+        if(updatedCourse.getCourseDescription() != null){
+            course.setCourseDescription(updatedCourse.getCourseDescription());
+        }
+        if(updatedCourse.getCoursePrerequisite() != null){
+            course.setCoursePrerequisite(updatedCourse.getCoursePrerequisite());
+        }
+        if(updatedCourse.getCourseCredit() != 0){
+            course.setCourseCredit(updatedCourse.getCourseCredit());
+        }
+        course = courseRepository.save(course);
         return CourseMapper.toCourseDto(course);
     }
     @Override

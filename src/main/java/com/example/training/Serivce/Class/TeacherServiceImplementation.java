@@ -36,14 +36,30 @@ public class TeacherServiceImplementation implements TeacherService {
     @Override
     public TeacherDto updateTeacher(long teacherId, TeacherDto updatedTeacher) throws ResourceNotFoundException{
         Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFoundException("Teacher with {"+teacherId+"} not found"));
-        teacher.setTeacherName(updatedTeacher.getTeacherName());
-        teacher.setTeacherGender(updatedTeacher.getTeacherGender());
-        teacher.setTeacherBD(updatedTeacher.getTeacherBD());
-        teacher.setTeacherPhone(updatedTeacher.getTeacherPhone());
-        teacher.setTeacherAddress(updatedTeacher.getTeacherAddress());
-        teacher.setTeacherSalary(updatedTeacher.getTeacherSalary());
-        teacher.setTeacherHourlyRate(updatedTeacher.getTeacherHourlyRate());
-        teacher.setTeacherEmail(updatedTeacher.getTeacherEmail());
+        if(updatedTeacher.getTeacherName() !=null){
+            teacher.setTeacherName(updatedTeacher.getTeacherName());
+        }
+        if(updatedTeacher.getTeacherGender() !=null){
+            teacher.setTeacherGender(updatedTeacher.getTeacherGender());
+        }
+        if(updatedTeacher.getTeacherBD() !=null){
+            teacher.setTeacherBD(updatedTeacher.getTeacherBD());
+        }
+        if(updatedTeacher.getTeacherPhone() !=null){
+            teacher.setTeacherPhone(updatedTeacher.getTeacherPhone());
+        }
+        if(updatedTeacher.getTeacherAddress() !=null){
+            teacher.setTeacherAddress(updatedTeacher.getTeacherAddress());
+        }
+        if(updatedTeacher.getTeacherSalary() != 0){
+            teacher.setTeacherSalary(updatedTeacher.getTeacherSalary());
+        }
+        if(updatedTeacher.getTeacherHourlyRate() != 0){
+            teacher.setTeacherHourlyRate(updatedTeacher.getTeacherHourlyRate());
+        }
+        if(updatedTeacher.getTeacherEmail() !=null){
+            teacher.setTeacherEmail(updatedTeacher.getTeacherEmail());
+        }
         teacher = teacherRepository.save(teacher);
         return TeacherMapper.toTeacherDto(teacher);
     }

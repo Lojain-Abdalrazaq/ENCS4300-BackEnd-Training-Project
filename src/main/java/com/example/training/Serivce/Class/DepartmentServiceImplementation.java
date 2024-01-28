@@ -30,11 +30,17 @@ public class DepartmentServiceImplementation implements DepartmentService {
         return DepartmentMapper.toDepartmentDto(department);
     }
     @Override
-    public DepartmentDto updateDepartment(Long deptId, DepartmentDto departmentDto) throws ResourceNotFoundException{
-        Department department = departmentRepository.findById(deptId).orElseThrow(() -> new ResourceNotFoundException("Department with {"+deptId+"} not found"));
-        department.setDepartmentCode(departmentDto.getDepartmentCode());
-        department.setDepartmentName(departmentDto.getDepartmentName());
-        department.setDepartmentDescription(departmentDto.getDepartmentDescription());
+    public DepartmentDto updateDepartment(Long deptId, DepartmentDto departmentDto) throws ResourceNotFoundException {
+        Department department = departmentRepository.findById(deptId).orElseThrow(() -> new ResourceNotFoundException("Department with {" + deptId + "} not found"));
+        if (departmentDto.getDepartmentCode() != null) {
+            department.setDepartmentCode(departmentDto.getDepartmentCode());
+        }
+        if (departmentDto.getDepartmentName() != null) {
+            department.setDepartmentName(departmentDto.getDepartmentName());
+        }
+        if (departmentDto.getDepartmentDescription() != null) {
+            department.setDepartmentDescription(departmentDto.getDepartmentDescription());
+        }
         department = departmentRepository.save(department);
         return DepartmentMapper.toDepartmentDto(department);
     }

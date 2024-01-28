@@ -37,12 +37,24 @@ public class StudentServiceImplementation implements StudentService {
     @Override
     public StudentDto updateStudent(long studentId, StudentDto updatedStudent) throws ResourceNotFoundException{
         Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {"+studentId+"}not found to update."));
-        student.setStudentName(updatedStudent.getStudentName());
-        student.setStudentBD(updatedStudent.getStudentBD());
-        student.setStudentGPA(updatedStudent.getStudentGPA());
-        student.setStudentEmail(updatedStudent.getStudentEmail());
-        student.setStudentPhone(updatedStudent.getStudentPhone());
-        student.setStudentAddress(updatedStudent.getStudentAddress());
+        if(updatedStudent.getStudentName() != null){
+            student.setStudentName(updatedStudent.getStudentName());
+        }
+        if(updatedStudent.getStudentBD() != null){
+            student.setStudentBD(updatedStudent.getStudentBD());
+        }
+        if(updatedStudent.getStudentGPA() != null){
+            student.setStudentGPA(updatedStudent.getStudentGPA());
+        }
+        if(updatedStudent.getStudentEmail() != null){
+            student.setStudentEmail(updatedStudent.getStudentEmail());
+        }
+        if(updatedStudent.getStudentPhone() != null){
+            student.setStudentPhone(updatedStudent.getStudentPhone());
+        }
+        if(updatedStudent.getStudentAddress() != null){
+            student.setStudentAddress(updatedStudent.getStudentAddress());
+        }
         student = studentRepository.save(student);
         return StudentMapper.toStudentDto(student);
     }
