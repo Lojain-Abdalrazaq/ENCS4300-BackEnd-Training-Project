@@ -1,7 +1,7 @@
-package com.example.training.Serivce.Interface;
+package com.example.training.Service.Interface;
 
-import com.example.training.Serivce.DTO.CourseDto;
-import com.example.training.Serivce.DTO.StudentDto;
+import com.example.training.Service.DTO.CourseDto;
+import com.example.training.Service.DTO.StudentDto;
 
 import java.util.List;
 

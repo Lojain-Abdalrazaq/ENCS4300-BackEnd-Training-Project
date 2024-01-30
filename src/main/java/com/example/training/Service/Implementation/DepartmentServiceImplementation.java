@@ -1,12 +1,12 @@
-package com.example.training.Serivce.Class;
+package com.example.training.Service.Implementation;
 
-import com.example.training.Handler.ResourceNotFoundException;
-import com.example.training.Serivce.DTO.DepartmentDto;
-import com.example.training.Serivce.Mapper.DepartmentMapper;
+import com.example.training.Service.Handler.ResourceNotFoundException;
+import com.example.training.Service.DTO.DepartmentDto;
 import com.example.training.Repository.DepartmentRepository;
 import com.example.training.Entity.Department;
-import com.example.training.Serivce.Interface.DepartmentService;
+import com.example.training.Service.Interface.DepartmentService;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +18,17 @@ public class DepartmentServiceImplementation implements DepartmentService {
 
     @Autowired
     private DepartmentRepository departmentRepository;
+    private ModelMapper modelMapper = new ModelMapper();
     @Override
     public DepartmentDto getDepartmentById(Long id) throws ResourceNotFoundException{
         Department department = departmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Department with {"+id+"} not found"));
-        return DepartmentMapper.toDepartmentDto(department);
+        return modelMapper.map(department, DepartmentDto.class);
     }
     @Override
     public DepartmentDto createDepartment(DepartmentDto departmentDto) {
-        Department department = DepartmentMapper.toDepartment(departmentDto);
+        Department department = modelMapper.map(departmentDto, Department.class);
         department = departmentRepository.save(department);
-        return DepartmentMapper.toDepartmentDto(department);
+        return modelMapper.map(department, DepartmentDto.class);
     }
     @Override
     public DepartmentDto updateDepartment(Long deptId, DepartmentDto departmentDto) throws ResourceNotFoundException {
@@ -42,7 +43,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
             department.setDepartmentDescription(departmentDto.getDepartmentDescription());
         }
         department = departmentRepository.save(department);
-        return DepartmentMapper.toDepartmentDto(department);
+        return modelMapper.map(department, DepartmentDto.class);
     }
     @Override
     public void deleteDepartment(Long id) throws ResourceNotFoundException{
@@ -52,7 +53,7 @@ public class DepartmentServiceImplementation implements DepartmentService {
     @Override
     public List<DepartmentDto> getAllDepartments() {
         List<Department> departments = departmentRepository.findAll();
-        return departments.stream().map((department) -> DepartmentMapper.toDepartmentDto(department))
+        return departments.stream().map((department) -> modelMapper.map(department, DepartmentDto.class))
                 .collect(java.util.stream.Collectors.toList());
     }
 }

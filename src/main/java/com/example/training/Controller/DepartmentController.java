@@ -1,7 +1,7 @@
 package com.example.training.Controller;
 
-import com.example.training.Serivce.DTO.DepartmentDto;
-import com.example.training.Serivce.Interface.DepartmentService;
+import com.example.training.Service.DTO.DepartmentDto;
+import com.example.training.Service.Interface.DepartmentService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

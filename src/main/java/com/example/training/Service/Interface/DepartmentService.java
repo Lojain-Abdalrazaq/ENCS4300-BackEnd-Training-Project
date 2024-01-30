@@ -1,6 +1,6 @@
-package com.example.training.Serivce.Interface;
+package com.example.training.Service.Interface;
 
-import com.example.training.Serivce.DTO.DepartmentDto;
+import com.example.training.Service.DTO.DepartmentDto;
 
 import java.util.List;
 

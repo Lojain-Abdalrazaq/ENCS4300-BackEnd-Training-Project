@@ -1,8 +1,8 @@
 package com.example.training.Controller;
 
-import com.example.training.Serivce.DTO.CourseDto;
-import com.example.training.Serivce.DTO.StudentDto;
-import com.example.training.Serivce.Interface.StudentService;
+import com.example.training.Service.DTO.CourseDto;
+import com.example.training.Service.DTO.StudentDto;
+import com.example.training.Service.Interface.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;

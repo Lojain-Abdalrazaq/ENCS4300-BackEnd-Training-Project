@@ -1,14 +1,14 @@
-package com.example.training.Serivce.Class;
+package com.example.training.Service.Implementation;
 
 import com.example.training.Entity.Department;
-import com.example.training.Handler.ResourceNotFoundException;
+import com.example.training.Service.Handler.ResourceNotFoundException;
 import com.example.training.Entity.Teacher;
 import com.example.training.Repository.TeacherRepository;
 import com.example.training.Repository.DepartmentRepository;
-import com.example.training.Serivce.DTO.TeacherDto;
-import com.example.training.Serivce.Mapper.TeacherMapper;
-import com.example.training.Serivce.Interface.TeacherService;
+import com.example.training.Service.DTO.TeacherDto;
+;import com.example.training.Service.Interface.TeacherService;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +21,19 @@ public class TeacherServiceImplementation implements TeacherService {
     private TeacherRepository teacherRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
+    ModelMapper modelMapper = new ModelMapper();
     @Override
     public TeacherDto createTeacher(TeacherDto teacherDto) throws ResourceNotFoundException{
         Department department = departmentRepository.findById(teacherDto.getDepartmentId()).orElseThrow(() -> new ResourceNotFoundException("Department with {"+teacherDto.getDepartmentId()+"}not found"));
-        Teacher teacher = TeacherMapper.toTeacher(teacherDto, department);
+        Teacher teacher = modelMapper.map(teacherDto, Teacher.class);
+        teacher.setDepartment(department);
         teacher = teacherRepository.save(teacher);
-        return TeacherMapper.toTeacherDto(teacher);
+        return modelMapper.map(teacher, TeacherDto.class);
     }
     @Override
     public TeacherDto getTeacherById(long id) throws ResourceNotFoundException{
         Teacher teacher = teacherRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Teacher with {"+id+"} not found"));
-        return TeacherMapper.toTeacherDto(teacher);
+        return modelMapper.map(teacher, TeacherDto.class);
     }
     @Override
     public TeacherDto updateTeacher(long teacherId, TeacherDto updatedTeacher) throws ResourceNotFoundException{
@@ -61,7 +63,7 @@ public class TeacherServiceImplementation implements TeacherService {
             teacher.setTeacherEmail(updatedTeacher.getTeacherEmail());
         }
         teacher = teacherRepository.save(teacher);
-        return TeacherMapper.toTeacherDto(teacher);
+        return modelMapper.map(teacher, TeacherDto.class);
     }
     @Override
     public void deleteTeacher(long teacherId) {
@@ -71,7 +73,7 @@ public class TeacherServiceImplementation implements TeacherService {
     @Override
     public List<TeacherDto> getAllTeachers() {
         List<Teacher> teachers = teacherRepository.findAll();
-        return teachers.stream().map((teacher) -> TeacherMapper.toTeacherDto(teacher))
+        return teachers.stream().map((teacher) -> modelMapper.map(teacher, TeacherDto.class))
                 .collect(java.util.stream.Collectors.toList());
     }
 }

@@ -1,18 +1,20 @@
-package com.example.training.Serivce.Class;
+package com.example.training.Service.Implementation;
 
 import com.example.training.Entity.Course;
 import com.example.training.Repository.CourseRepository;
-import com.example.training.Handler.ResourceNotFoundException;
+import com.example.training.Service.Handler.ResourceNotFoundException;
 import com.example.training.Entity.Student;
 import com.example.training.Repository.StudentRepository;
-import com.example.training.Serivce.DTO.CourseDto;
-import com.example.training.Serivce.Mapper.CourseMapper;
-import com.example.training.Serivce.DTO.StudentDto;
-import com.example.training.Serivce.Mapper.StudentMapper;
-import com.example.training.Serivce.Interface.StudentService;
+import com.example.training.Service.DTO.CourseDto;
+;import com.example.training.Service.DTO.StudentDto;
+;import com.example.training.Service.Interface.StudentService;
 import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,16 +25,17 @@ public class StudentServiceImplementation implements StudentService {
     private StudentRepository studentRepository;
     @Autowired
     private CourseRepository courseRepository;
+    ModelMapper modelMapper = new ModelMapper();
     @Override
     public StudentDto createStudent(StudentDto studentDto) {
-        Student student = StudentMapper.toStudent(studentDto);
+        Student student = modelMapper.map(studentDto, Student.class);
         student = studentRepository.save(student);
-        return StudentMapper.toStudentDto(student);
+        return modelMapper.map(student, StudentDto.class);
     }
     @Override
     public StudentDto getStudentById(long id) throws ResourceNotFoundException{
         Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student with {"+id+"} not found."));
-        return StudentMapper.toStudentDto(student);
+        return modelMapper.map(student, StudentDto.class);
     }
     @Override
     public StudentDto updateStudent(long studentId, StudentDto updatedStudent) throws ResourceNotFoundException{
@@ -56,7 +59,7 @@ public class StudentServiceImplementation implements StudentService {
             student.setStudentAddress(updatedStudent.getStudentAddress());
         }
         student = studentRepository.save(student);
-        return StudentMapper.toStudentDto(student);
+        return modelMapper.map(student, StudentDto.class);
     }
     @Override
     public void deleteStudent(long studentId) throws ResourceNotFoundException{
@@ -66,7 +69,7 @@ public class StudentServiceImplementation implements StudentService {
     @Override
     public List<StudentDto> getAllStudents() {
         List<Student> students = studentRepository.findAll();
-        return students.stream().map((student) -> StudentMapper.toStudentDto(student))
+        return students.stream().map((student) -> modelMapper.map(student, StudentDto.class))
                 .collect(java.util.stream.Collectors.toList());
     }
     @Override
@@ -77,8 +80,10 @@ public class StudentServiceImplementation implements StudentService {
         studentRepository.save(student);
     }
     @Override
-    public List<CourseDto> getCoursesForStudent(Long studentId) throws ResourceNotFoundException{
-        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {"+studentId+"}not found."));
-        return student.getEnrolledCourses().stream().map(CourseMapper::toCourseDto).collect(Collectors.toList());
+    public List<CourseDto> getCoursesForStudent(Long studentId) throws ResourceNotFoundException {
+        Student student = studentRepository.findById(studentId).orElseThrow(() -> new ResourceNotFoundException("Student with {" + studentId + "} not found."));
+        List<Course> enrolledCourses = student.getEnrolledCourses();
+        Type listType = new TypeToken<List<CourseDto>>() {}.getType();
+        return modelMapper.map(enrolledCourses, listType);
     }
 }
